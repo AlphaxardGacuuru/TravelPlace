@@ -233,6 +233,30 @@
                 </div>
             </div>
         </li>
+		
+		<!-- Staff Settings -->
+		<li class="nav-item @if($conName[1] == 'setting' && $conName[2] == 'general') active @endif">
+			<a class="nav-link collapsed"
+			   href="#"
+			   data-toggle="collapse"
+			   data-target="#collapseStaff"
+			   aria-expanded="true"
+			   aria-controls="collapseStaff">
+				<i class="fas fa-cog"></i>
+				<span>Staff</span>
+			</a>
+			<div id="collapseStaff"
+				 class="collapse @if($conName[1] == 'setting' && $conName[2] == 'general') show @endif"
+				 aria-labelledby="headingPages"
+				 data-parent="#accordionSidebar">
+				<div class="bg-white py-2 collapse-inner rounded">
+					<a class="collapse-item @if($conName[3] == 'logo') active @endif"
+					   href="{{ route('admin.staff.index') }}">All Staff</a>
+					<a class="collapse-item @if($conName[3] == 'favicon') active @endif"
+					   href="{{ route('admin.roles.index') }}">Roles</a>
+				</div>
+			</div>
+		</li>
 
 
 
@@ -275,7 +299,7 @@
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ session('name') }}</span>
-                            <img class="img-profile rounded-circle" src="{{ asset('public/uploads/'.session('photo')) }}">
+                            <img class="img-profile rounded-circle" src="{{ asset('uploads/'.session('photo')) }}">
                         </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">

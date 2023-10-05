@@ -68,7 +68,8 @@ use App\Http\Controllers\Front\SubscriptionController;
 use App\Http\Controllers\Front\TeamMemberController as TeamMemberControllerForFront;
 use App\Http\Controllers\Front\TermController;
 use App\Http\Controllers\Front\TestimonialController as TestimonialControllerForFront;
-
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\StaffController;
 use Illuminate\Support\Facades\Route;
 
 /* --------------------------------------- */
@@ -529,3 +530,35 @@ Route::get('admin/traveller/delete/{id}', [TravellerController::class,'destroy']
 /* --------------------------------------- */
 Route::get('admin/menu/view', [MenuController::class,'index'])->name('admin.menu.index');
 Route::post('admin/menu/update', [MenuController::class,'update']);
+
+
+/* --------------------------------------- */
+/* Staff - Admin */
+/* --------------------------------------- */
+Route::prefix('admin')->group(function () {
+	Route::resource('staff' , StaffController::class)->names([
+		'index' => 'admin.staff.index',
+		'create' => 'admin.staff.create',
+		'store' => 'admin.staff.store',
+		'show' => 'admin.staff.show',
+		'edit' => 'admin.staff.edit',
+		'update' => 'admin.staff.update',
+		'destroy' => 'admin.staff.destroy',
+	]);
+});
+
+
+/* --------------------------------------- */
+/* Role - Admin */
+/* --------------------------------------- */
+Route::prefix('admin')->group(function () {
+	Route::resource('roles' , RoleController::class)->names([
+		'index' => 'admin.roles.index',
+		'create' => 'admin.roles.create',
+		'store' => 'admin.roles.store',
+		'show' => 'admin.roles.show',
+		'edit' => 'admin.roles.edit',
+		'update' => 'admin.roles.update',
+		'destroy' => 'admin.roles.destroy',
+	]);
+});
