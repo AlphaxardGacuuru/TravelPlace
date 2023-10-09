@@ -126,28 +126,28 @@ class StaffController extends Controller
         }
 
         if ($request->filled("roles")) {
-            DB::transaction(function () use ($admin, $request) {
+            foreach ($request->input("roles") as $roleId) {
+                // Check if role already exists
+                $userRoleDoesntExist = UserRole::where("admin_id", $admin->id)
+                    ->where("role_id", $roleId)
+                    ->doesntExist();
 
-                foreach ($request->roles as $role) {
-                    // Check if role already exists
-                    $userRoleDoesntExist = UserRole::where("admin_id", $admin->id)
-                        ->where("role_id", $role)
-                        ->doesntExist();
-
-                    if ($userRoleDoesntExist) {
-                        $userRole = new UserRole;
-                        $userRole->admin_id = $admin->id;
-                        $userRole->role_id = $role;
-                        $userRole->save();
-                    } else {
-                        // Remove roles not included
-                        UserRole::where("admin_id", $admin->id)
-                            ->whereNotIn("role_id", $request->roles)
-                            ->delete();
-                    }
+                if ($userRoleDoesntExist) {
+                    $userRole = new UserRole;
+                    $userRole->admin_id = $admin->id;
+                    $userRole->role_id = $roleId;
+                    $userRole->save();
+                } else {
+                    // Remove roles not included
+                    UserRole::where("admin_id", $admin->id)
+                        ->whereNotIn("role_id", $request->roles)
+                        ->delete();
                 }
-
-            });
+            }
+        } else {
+            // Remove roles not included
+            UserRole::where("admin_id", $admin->id)
+                ->delete();
         }
 
         $admin->save();
@@ -167,10 +167,10 @@ class StaffController extends Controller
     {
         $admin = Admin::find($id);
 
-		// Delete Roles
-		UserRole::where("admin_id", $admin->id)->delete();
-		
-		// Delete Admin
+        // Delete Roles
+        UserRole::where("admin_id", $admin->id)->delete();
+
+        // Delete Admin
         $admin->delete();
 
         return redirect()

@@ -2,54 +2,73 @@
 
 namespace App\Models\Admin;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Admin extends Model
+class Admin extends Authenticatable
 {
     protected $fillable = [
         'name',
         'email',
         'password',
         'token',
-        'photo'
+        'photo',
     ];
 
-	 protected $casts = [
-        "permissions" => "array"
+    protected $casts = [
+        "permissions" => "array",
     ];
 
-	/*
-	* Relationships
-	*/ 
+    /*
+     * Relationships
+     */
 
-	public function userRoles()
-	{
-		return $this->hasMany(UserRole::class);
-	}
+    public function userRoles()
+    {
+        return $this->hasMany(UserRole::class);
+    }
 
-	/*
-	* Custom Functions
-	*/
-	
-	public function roleNames()
-	{
-		$roles = [];
+    /*
+     * Custom Functions
+     */
 
-		foreach ($this->userRoles as $userRole) {
-			array_push($roles, $userRole->role->name);
-		}
+    // Returns names of roles
+    public function roleNames()
+    {
+        $roles = [];
 
-		return $roles;
-	}
-	
-	public function roles()
-	{
-		$roles = [];
+        foreach ($this->userRoles as $userRole) {
+            array_push($roles, $userRole->role->name);
+        }
 
-		foreach ($this->userRoles as $userRole) {
-			array_push($roles, $userRole->role);
-		}
+        return $roles;
+    }
 
-		return collect($roles);
-	}
+    // Returns all roles
+    public function roles()
+    {
+        $roles = [];
+
+        foreach ($this->userRoles as $userRole) {
+            array_push($roles, $userRole->role);
+        }
+
+        return collect($roles);
+    }
+
+    // Returns an array of permissions
+    public function permissions()
+    {
+        $entities = [];
+
+        foreach ($this->userRoles as $userRole) {
+            $roleEntities = $userRole->role->entities;
+
+            array_push($entities, $roleEntities);
+        }
+
+        // Combine array and get unique
+        return collect($entities)
+            ->collapse()
+            ->unique();
+    }
 }

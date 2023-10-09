@@ -40,7 +40,10 @@
                     <label for="">Meta Description</label>
                     <textarea name="seo_meta_description" class="form-control h_100" cols="30" rows="10">{{ $page_blog->seo_meta_description }}</textarea>
                 </div>
-                <button type="submit" class="btn btn-success">Update</button>
+                @can("update-page-settings")
+					<button type="submit"
+							class="btn btn-success">Update</button>
+					@endcan
             </div>
         </div>
     </form>

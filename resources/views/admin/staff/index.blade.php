@@ -45,14 +45,17 @@
 							<div class="d-flex">
 								{{-- Edit Link --}}
 								<div class="p-1">
+									@can("update-staff")
 									<a href="{{ route('admin.staff.edit', ['staff' => $admin->id]) }}"
 									   class="btn btn-warning btn-sm">
 										<i class="fas fa-edit"></i>
 									</a>
+									@endcan
 								</div>
 								{{-- Edit Link End --}}
 								{{-- Delete Link --}}
 								<div class="p-1">
+									@can("delete-staff")
 									<a href="#"
 									   class="btn btn-danger btn-sm"
 									   onClick="
@@ -61,6 +64,7 @@
 										return document.getElementById('delete-form-{{ $admin->id }}').submit();">
 										<i class="fas fa-trash-alt"></i>
 									</a>
+									@endcan
 									<form id="delete-form-{{ $admin->id }}"
 										  action="{{ route('admin.staff.destroy', ['staff' => $admin->id]) }}"
 										  method="POST">

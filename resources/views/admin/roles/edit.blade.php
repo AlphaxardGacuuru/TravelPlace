@@ -40,28 +40,30 @@
 			{{-- Entities --}}
 			<div class="form-group">
 				<label for="">Entities</label>
-				@foreach ($entities as $entity)
-				<div class="p-2">
-					{{-- Entity Title --}}
-					<h6 class="text-capitalize"><b>{{ str_replace("_", " ", $entity) }}</b></h6>
-					{{-- Entity Title End --}}
-					@foreach ($CRUD as $item)
-					@php
-					$value = $entity . "." . $item;
-					@endphp
-					<label>
-						<input type="checkbox"
-							   id=""
-							   name="entities[]"
-							   value="{{ $value }}"
-							   {{
-							   in_array($value,
-							   $role->entities) ? "checked" : "" }} />
-						<span class="text-capitalize mr-2">{{ $item }}</span>
-					</label>
+				<div class="d-flex justify-content-between flex-wrap">
+					@foreach ($entities as $entity)
+					<div class="border-bottom m-1 p-2">
+						{{-- Entity Title --}}
+						<h6 class="text-capitalize"><b>{{ str_replace("_", " ", $entity) }}</b></h6>
+						{{-- Entity Title End --}}
+						@foreach ($CRUD as $item)
+						@php
+						$value = $entity . "." . $item;
+						@endphp
+						<label>
+							<input type="checkbox"
+								   id=""
+								   name="entities[]"
+								   value="{{ $value }}"
+								   {{
+								   in_array($value,
+								   $role->entities) ? "checked" : "" }} />
+							<span class="text-capitalize mr-2">{{ $item }}</span>
+						</label>
+						@endforeach
+					</div>
 					@endforeach
 				</div>
-				@endforeach
 			</div>
 			{{-- Entities End --}}
 			<button type="submit"

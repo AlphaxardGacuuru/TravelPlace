@@ -15,11 +15,13 @@ class AdminResource extends JsonResource
     public function toArray($request)
     {
         return [
-			"id" => $this->id,
-			"name" => $this->name,
-			"email" => $this->email,
-			"photo" => $this->photo,
-			"roles" => $this->roleNames(),
-		];
+            "id" => $this->id,
+            "name" => $this->name,
+            "email" => $this->email,
+            "photo" => $this->photo,
+            "roleNames" => $this->roleNames(),
+            // "roles" => $this->roles(),
+			"permissions" => $this->permissions()
+        ];
     }
 }

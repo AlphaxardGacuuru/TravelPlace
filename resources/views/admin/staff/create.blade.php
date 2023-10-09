@@ -48,8 +48,10 @@
 					@endforeach
 				</div>
 			</div>
+			@can("create-staff")
 			<button type="submit"
 					class="btn btn-success">Submit</button>
+			@endcan
 		</div>
 	</div>
 </form>
